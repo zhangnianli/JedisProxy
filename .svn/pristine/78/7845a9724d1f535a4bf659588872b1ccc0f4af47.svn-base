@@ -1,0 +1,27 @@
+package bonree;
+
+import bonree.pipeline.JedisClusterPipeline;
+import bonree.proxy.JedisProxy;
+import redis.clients.jedis.Response;
+
+/**
+ * Created by impala on 2017/8/31.
+ */
+public class JedisTest {
+    public static void main(String[] args) {
+        JedisProxy jedisProxy = new JedisProxy("3.0", "192.168.101.80:7000");
+        JedisClusterPipeline jedisClusterPipeline = jedisProxy.pipeline();
+//        jedisClusterPipeline.set("d","d");
+//        jedisClusterPipeline.expire("d",33333);
+//        jedisClusterPipeline.sync();
+//        jedisClusterPipeline.sync();
+//        jedisClusterPipeline.close();
+        jedisClusterPipeline = jedisProxy.pipeline();
+        Response<String> response = jedisClusterPipeline.get("d");
+        jedisClusterPipeline.sync();
+        System.out.println(response.get());
+//        jedisClusterPipeline.set("d","dd");
+        jedisClusterPipeline.close();
+
+    }
+}
